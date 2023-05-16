@@ -16,7 +16,7 @@ inputs:
         const: platform:gcp
   targetName:
     type: string
-    Title: Name	
+    title: Name	
   targetFlavor:
     type: string
     title: Flavor
