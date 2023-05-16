@@ -1,0 +1,52 @@
+name: Cloud Agnostic VM
+version: 7.4
+formatVersion: 1
+inputs:
+  targetPlatform:
+    type: string
+    title: Cloud Platform
+    oneOf:
+      - title: vSphere
+        const: platform:vsphere
+      - title: Azure
+        const: platform:azure
+      - title: Amazon Web Services
+        const: platform:aws
+      - title: Google Cloud Platform
+        const: platform:gcp
+  targetName:
+    type: string
+    Title: Name	
+  targetFlavor:
+    type: string
+    title: Flavor
+    oneOf:
+      - title: Small
+        const: Small
+      - title: Medium
+        const: Medium
+      - title: Large
+        const: Large
+  targetImage:
+    type: string
+    title: Image
+    oneOf:
+      - title: Windows
+        const: Windows
+      - title: Ubuntu
+        const: Ubuntu
+resources:
+  Cloud_Machine_1:
+    type: Cloud.Machine
+    properties:
+      name: '${input.targetName}'
+      image: '${input.targetImage}'
+      flavor: '${input.targetFlavor}'
+      constraints:
+        - tag: '${input.targetPlatform}'
+      networks:
+        - network: '${resource.Cloud_Network_1.id}'
+  Cloud_Network_1:
+    type: Cloud.Network
+    properties:
+      networkType: existing
